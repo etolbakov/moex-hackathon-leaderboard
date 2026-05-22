@@ -1,0 +1,102 @@
+name: 📸 Snapshot Leaderboard
+
+on:
+  schedule:
+    # Every 5 minutes on weekdays (Moscow trading hours Mon–Fri 07:00–16:00 UTC ≈ 10:00–19:00 MSK)
+    # GitHub cron minimum granularity is 5 min; actual execution may lag by a few minutes.
+    - cron: '*/5 7-16 * * 1-5'
+    # Also run twice daily on weekends to catch late trades
+    - cron: '0 8,14 * * 0,6'
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Optional commit note'
+        required: false
+        default: ''
+      force:
+        description: 'Commit even if data unchanged'
+        required: false
+        default: 'false'
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # ── 2. Fetch leaderboard HTML ───────────────────────────────────
+      - name: Fetch leaderboard HTML
+        id: fetch
+        run: |
+          echo "Fetching https://arenago.ru/competitions/moex-ai-agent/leaderboard …"
+          HTTP=$(curl -s -o /tmp/lb.html -w "%{http_code}" \
+            -H "Accept: text/html,application/xhtml+xml" \
+            -H "Accept-Language: ru,en;q=0.9" \
+            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36" \
+            --max-time 30 --retry 3 --retry-delay 5 \
+            "https://arenago.ru/competitions/moex-ai-agent/leaderboard")
+          echo "HTTP status: $HTTP"
+          if [ "$HTTP" != "200" ]; then
+            echo "::error::Fetch failed with status $HTTP"
+            exit 1
+          fi
+          BYTES=$(wc -c < /tmp/lb.html)
+          echo "Downloaded ${BYTES} bytes"
+          # Sanity check: page should contain the leaderboard table
+          if ! grep -q 'm-table' /tmp/lb.html; then
+            echo "::error::Fetched HTML does not contain expected .m-table"
+            exit 1
+          fi
+
+      # ── 3. Parse HTML → JSON snapshot ──────────────────────────────
+      - name: Parse snapshot
+        id: parse
+        run: |
+          # Redirect stderr to capture SNAP_HASH and SNAP_ID
+          node scripts/extract_snapshot.js /tmp/lb.html > /tmp/new_snap.json 2>/tmp/snap_meta.txt
+          cat /tmp/snap_meta.txt      # show in Actions log
+          SNAP_ID=$(grep '^SNAP_ID=' /tmp/snap_meta.txt | cut -d= -f2)
+          echo "snap_id=$SNAP_ID" >> "$GITHUB_OUTPUT"
+          echo "Parsed snapshot: $SNAP_ID"
+          # Quick summary
+          node -e "
+            const d = JSON.parse(require('fs').readFileSync('/tmp/new_snap.json','utf8'));
+            const top = d.entries[0];
+            console.log('Teams:', d.entries.length, '| #1:', top.team, 'capital:', top.capital);
+          "
+
+      # ── 4. Merge into timeseries + change detection ─────────────────
+      - name: Update timeseries
+        id: update
+        run: |
+          CHANGED=$(node scripts/update_timeseries.js /tmp/new_snap.json)
+          FORCE="${{ github.event.inputs.force }}"
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "Data changed: $CHANGED | force: $FORCE"
+          if [ "$CHANGED" = "false" ] && [ "$FORCE" != "true" ]; then
+            echo "No change detected — skipping commit."
+          fi
+
+      # ── 5. Commit only when data changed (or forced) ────────────────
+      - name: Commit snapshot
+        if: steps.update.outputs.changed == 'true' || github.event.inputs.force == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/timeseries.json data/snapshots/latest.json
+          if git diff --cached --quiet; then
+            echo "git diff is empty — nothing to commit."
+            exit 0
+          fi
+          SNAP_ID="${{ steps.parse.outputs.snap_id }}"
+          NOTE="${{ github.event.inputs.note }}"
+          MSG="snapshot: ${SNAP_ID}${NOTE:+ — $NOTE}"
+          git commit -m "$MSG"
+          git push
+          echo "✅ Pushed: $MSG"

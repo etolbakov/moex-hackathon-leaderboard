@@ -1,0 +1,34 @@
+{
+  "snapshot_id": "2026-05-21T1024",
+  "timestamp": "2026-05-21T10:24:00+03:00",
+  "label": "21 мая 2026, 10:24",
+  "total_participants": 47,
+  "competition": "moex-ai-agent",
+  "source": "manual",
+  "benchmark": { "name": "IMOEX", "capital": 974028 },
+  "entries": [
+    {"rank":1,"team":"Команда","captain":"vpack20","capital":1014914,"commission":5179,"load_pct":49,"days":5,"trades":197,"turnover":10358523,"activity":"today"},
+    {"rank":2,"team":"Vortix","captain":"temshik_trader","capital":1000914,"commission":4926,"load_pct":22,"days":3,"trades":187,"turnover":9851961,"activity":"week"},
+    {"rank":3,"team":"ОРЕХАБ","captain":"ras0087","capital":1000013,"commission":11,"load_pct":0,"days":2,"trades":7,"turnover":22070,"activity":"week"},
+    {"rank":4,"team":"Happiness Hedging Quants","captain":"mkhmzr","capital":999998,"commission":2,"load_pct":0,"days":1,"trades":2,"turnover":3448,"activity":"week"},
+    {"rank":5,"team":"A-team","captain":"liken17","capital":999997,"commission":0,"load_pct":0,"days":1,"trades":1,"turnover":325,"activity":"week"},
+    {"rank":6,"team":"solanaboys","captain":"moexflipper","capital":999995,"commission":5,"load_pct":0,"days":1,"trades":2,"turnover":10432,"activity":"week"},
+    {"rank":7,"team":"Бу, испугался?","captain":"Belkovskyy","capital":999792,"commission":540,"load_pct":6,"days":2,"trades":35,"turnover":1079226,"activity":"today"},
+    {"rank":8,"team":"SoloTech","captain":"stasvinokur","capital":999143,"commission":796,"load_pct":6,"days":6,"trades":27,"turnover":1592390,"activity":"week"},
+    {"rank":9,"team":"Jarvis","captain":"mail10102005","capital":997908,"commission":5042,"load_pct":29,"days":3,"trades":45,"turnover":10085118,"activity":"week"},
+    {"rank":10,"team":"AllegroCode","captain":"dgalimov560","capital":996990,"commission":4275,"load_pct":0,"days":2,"trades":118,"turnover":8550111,"activity":"week"},
+    {"rank":11,"team":"LLMao","captain":"pavel","capital":992677,"commission":376,"load_pct":74,"days":2,"trades":8,"turnover":753144,"activity":"week"},
+    {"rank":12,"team":"Дети Баффета","captain":"antsev.itmo","capital":991961,"commission":20487,"load_pct":97,"days":2,"trades":165,"turnover":40973377,"activity":"week"},
+    {"rank":13,"team":"Байкальск","captain":"piledreke","capital":990976,"commission":1595,"load_pct":21,"days":3,"trades":37,"turnover":3191063,"activity":"week"},
+    {"rank":14,"team":"pacemaker","captain":"tialgo","capital":989342,"commission":747,"load_pct":51,"days":2,"trades":7,"turnover":1493558,"activity":"week"},
+    {"rank":15,"team":"YA_week","captain":"romalevints","capital":987483,"commission":31085,"load_pct":98,"days":4,"trades":1115,"turnover":62170526,"activity":"today"},
+    {"rank":16,"team":"Jevio Team","captain":"klevin3701","capital":987137,"commission":7599,"load_pct":0,"days":2,"trades":174,"turnover":15198532,"activity":"week"},
+    {"rank":17,"team":"ThisIsMISIS","captain":"trader228","capital":984893,"commission":7963,"load_pct":0,"days":5,"trades":467,"turnover":15925248,"activity":"week"},
+    {"rank":18,"team":"dodep MISIS","captain":"and159753000000000000000000","capital":981940,"commission":12391,"load_pct":0,"days":3,"trades":174,"turnover":24782830,"activity":"today"},
+    {"rank":19,"team":"Golden Boys","captain":"ivaldepabloadrian","capital":980617,"commission":16627,"load_pct":9,"days":2,"trades":512,"turnover":33254952,"activity":"today"},
+    {"rank":20,"team":"AITraiding","captain":"a.strachenkov","capital":979461,"commission":17139,"load_pct":51,"days":8,"trades":678,"turnover":34277641,"activity":"today"},
+    {"rank":21,"team":"АБОБА","captain":"serfetto","capital":973973,"commission":4655,"load_pct":77,"days":6,"trades":520,"turnover":9311029,"activity":"today"},
+    {"rank":22,"team":"eveloup","captain":"h.timur.alisherovich","capital":969661,"commission":41263,"load_pct":35,"days":8,"trades":1220,"turnover":82526433,"activity":"today"}
+  ]
+}
+

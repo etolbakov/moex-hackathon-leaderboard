@@ -1,0 +1,368 @@
+{
+  "last_updated": "2026-05-21T10:24:00+03:00",
+  "last_snapshot_id": "2026-05-21T1024",
+  "competition": "moex-ai-agent",
+  "snapshots": [
+    {
+      "sid": "2026-05-21T1024",
+      "timestamp": "2026-05-21T10:24:00+03:00",
+      "label": "21 мая 2026, 10:24",
+      "total_participants": 47,
+      "benchmark_capital": 974028
+    }
+  ],
+  "teams": {
+    "vpack20": {
+      "team": "Команда",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 1,
+          "capital": 1014914,
+          "commission": 5179,
+          "load_pct": 49,
+          "days": 5,
+          "trades": 197,
+          "turnover": 10358523,
+          "activity": "today"
+        }
+      ]
+    },
+    "temshik_trader": {
+      "team": "Vortix",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 2,
+          "capital": 1000914,
+          "commission": 4926,
+          "load_pct": 22,
+          "days": 3,
+          "trades": 187,
+          "turnover": 9851961,
+          "activity": "week"
+        }
+      ]
+    },
+    "ras0087": {
+      "team": "ОРЕХАБ",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 3,
+          "capital": 1000013,
+          "commission": 11,
+          "load_pct": 0,
+          "days": 2,
+          "trades": 7,
+          "turnover": 22070,
+          "activity": "week"
+        }
+      ]
+    },
+    "mkhmzr": {
+      "team": "Happiness Hedging Quants",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 4,
+          "capital": 999998,
+          "commission": 2,
+          "load_pct": 0,
+          "days": 1,
+          "trades": 2,
+          "turnover": 3448,
+          "activity": "week"
+        }
+      ]
+    },
+    "liken17": {
+      "team": "A-team",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 5,
+          "capital": 999997,
+          "commission": 0,
+          "load_pct": 0,
+          "days": 1,
+          "trades": 1,
+          "turnover": 325,
+          "activity": "week"
+        }
+      ]
+    },
+    "moexflipper": {
+      "team": "solanaboys",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 6,
+          "capital": 999995,
+          "commission": 5,
+          "load_pct": 0,
+          "days": 1,
+          "trades": 2,
+          "turnover": 10432,
+          "activity": "week"
+        }
+      ]
+    },
+    "Belkovskyy": {
+      "team": "Бу, испугался?",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 7,
+          "capital": 999792,
+          "commission": 540,
+          "load_pct": 6,
+          "days": 2,
+          "trades": 35,
+          "turnover": 1079226,
+          "activity": "today"
+        }
+      ]
+    },
+    "stasvinokur": {
+      "team": "SoloTech",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 8,
+          "capital": 999143,
+          "commission": 796,
+          "load_pct": 6,
+          "days": 6,
+          "trades": 27,
+          "turnover": 1592390,
+          "activity": "week"
+        }
+      ]
+    },
+    "mail10102005": {
+      "team": "Jarvis",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 9,
+          "capital": 997908,
+          "commission": 5042,
+          "load_pct": 29,
+          "days": 3,
+          "trades": 45,
+          "turnover": 10085118,
+          "activity": "week"
+        }
+      ]
+    },
+    "dgalimov560": {
+      "team": "AllegroCode",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 10,
+          "capital": 996990,
+          "commission": 4275,
+          "load_pct": 0,
+          "days": 2,
+          "trades": 118,
+          "turnover": 8550111,
+          "activity": "week"
+        }
+      ]
+    },
+    "pavel": {
+      "team": "LLMao",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 11,
+          "capital": 992677,
+          "commission": 376,
+          "load_pct": 74,
+          "days": 2,
+          "trades": 8,
+          "turnover": 753144,
+          "activity": "week"
+        }
+      ]
+    },
+    "antsev.itmo": {
+      "team": "Дети Баффета",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 12,
+          "capital": 991961,
+          "commission": 20487,
+          "load_pct": 97,
+          "days": 2,
+          "trades": 165,
+          "turnover": 40973377,
+          "activity": "week"
+        }
+      ]
+    },
+    "piledreke": {
+      "team": "Байкальск",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 13,
+          "capital": 990976,
+          "commission": 1595,
+          "load_pct": 21,
+          "days": 3,
+          "trades": 37,
+          "turnover": 3191063,
+          "activity": "week"
+        }
+      ]
+    },
+    "tialgo": {
+      "team": "pacemaker",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 14,
+          "capital": 989342,
+          "commission": 747,
+          "load_pct": 51,
+          "days": 2,
+          "trades": 7,
+          "turnover": 1493558,
+          "activity": "week"
+        }
+      ]
+    },
+    "romalevints": {
+      "team": "YA_week",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 15,
+          "capital": 987483,
+          "commission": 31085,
+          "load_pct": 98,
+          "days": 4,
+          "trades": 1115,
+          "turnover": 62170526,
+          "activity": "today"
+        }
+      ]
+    },
+    "klevin3701": {
+      "team": "Jevio Team",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 16,
+          "capital": 987137,
+          "commission": 7599,
+          "load_pct": 0,
+          "days": 2,
+          "trades": 174,
+          "turnover": 15198532,
+          "activity": "week"
+        }
+      ]
+    },
+    "trader228": {
+      "team": "ThisIsMISIS",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 17,
+          "capital": 984893,
+          "commission": 7963,
+          "load_pct": 0,
+          "days": 5,
+          "trades": 467,
+          "turnover": 15925248,
+          "activity": "week"
+        }
+      ]
+    },
+    "and159753000000000000000000": {
+      "team": "dodep MISIS",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 18,
+          "capital": 981940,
+          "commission": 12391,
+          "load_pct": 0,
+          "days": 3,
+          "trades": 174,
+          "turnover": 24782830,
+          "activity": "today"
+        }
+      ]
+    },
+    "ivaldepabloadrian": {
+      "team": "Golden Boys",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 19,
+          "capital": 980617,
+          "commission": 16627,
+          "load_pct": 9,
+          "days": 2,
+          "trades": 512,
+          "turnover": 33254952,
+          "activity": "today"
+        }
+      ]
+    },
+    "a.strachenkov": {
+      "team": "AITraiding",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 20,
+          "capital": 979461,
+          "commission": 17139,
+          "load_pct": 51,
+          "days": 8,
+          "trades": 678,
+          "turnover": 34277641,
+          "activity": "today"
+        }
+      ]
+    },
+    "serfetto": {
+      "team": "АБОБА",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 21,
+          "capital": 973973,
+          "commission": 4655,
+          "load_pct": 77,
+          "days": 6,
+          "trades": 520,
+          "turnover": 9311029,
+          "activity": "today"
+        }
+      ]
+    },
+    "h.timur.alisherovich": {
+      "team": "eveloup",
+      "history": [
+        {
+          "sid": "2026-05-21T1024",
+          "rank": 22,
+          "capital": 969661,
+          "commission": 41263,
+          "load_pct": 35,
+          "days": 8,
+          "trades": 1220,
+          "turnover": 82526433,
+          "activity": "today"
+        }
+      ]
+    }
+  }
+}

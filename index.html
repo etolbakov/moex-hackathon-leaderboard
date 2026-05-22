@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOEX AI Trade Agent — Leaderboard</title>
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <style>
+    :root {
+      --primary:#218380; --gold:#fbbf24; --silver:#94a3b8; --bronze:#fb923c;
+      --green:#22c55e;   --red:#f87171;  --yellow:#eab308;
+      --bg:#f8fafc; --border:#e2e8f0; --text:#1e293b; --text2:#64748b;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0}
+
+    /* ── Navbar ── */
+    .app-nav{background:#fff;border-bottom:1px solid var(--border);padding:.65rem 1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+    .app-logo{font-size:1.1rem;font-weight:800;letter-spacing:-.03em;color:var(--primary);text-decoration:none;white-space:nowrap}
+    .app-logo em{color:#e11d48;font-style:normal}
+    .snap-badge{font-size:.72rem;background:#f1f5f9;border:1px solid var(--border);border-radius:20px;padding:.2rem .65rem;color:var(--text2);white-space:nowrap}
+    .snap-badge a{color:inherit;text-decoration:none}
+
+    /* ── Tabs ── */
+    .tab-bar{display:flex;border-bottom:1px solid var(--border);background:#fff;padding:0 1.25rem}
+    .tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:.55rem 1rem;font-size:.88rem;font-weight:500;color:var(--text2);cursor:pointer;transition:color .15s;white-space:nowrap}
+    .tab-btn:hover{color:var(--primary)}
+    .tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+
+    /* ── Stat cards ── */
+    .stat-card{background:#fff;border:1px solid var(--border);border-radius:.6rem;padding:.9rem 1rem;text-align:center}
+    .stat-num{font-size:1.45rem;font-weight:800;line-height:1.2}
+    .stat-label{font-size:.68rem;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:.2rem}
+
+    /* ── Leaderboard ── */
+    .lb-card{background:#fff;border:1px solid var(--border);border-radius:.6rem;overflow:hidden}
+    .lb-toolbar{padding:.6rem .9rem;border-bottom:1px solid var(--border);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;background:#fafafa}
+    .lb-toolbar input{font-size:.83rem;max-width:230px}
+    .legend-item{font-size:.72rem;display:inline-flex;align-items:center;gap:3px}
+    .dot{display:inline-block;width:7px;height:7px;border-radius:50%}
+    .row-count{font-size:.72rem;color:var(--text2);margin-left:auto;white-space:nowrap}
+
+    table.lb{width:100%;border-collapse:collapse;font-size:.855rem}
+    table.lb thead th{background:#f8fafc;border-bottom:2px solid var(--primary);font-weight:500;color:var(--text2);font-size:.76rem;white-space:nowrap;cursor:pointer;user-select:none;padding:.6rem .7rem}
+    table.lb thead th:hover{background:#f0faf9;color:var(--text)}
+    table.lb thead th.sort-on{color:var(--primary);background:#f0faf9}
+    .sort-arr{opacity:.35;font-size:.7rem;margin-left:.2rem}
+    table.lb thead th.sort-on .sort-arr{opacity:1}
+    table.lb tbody td{padding:.55rem .7rem;vertical-align:middle;border-bottom:1px solid #f1f5f9}
+    table.lb tbody tr:last-child td{border-bottom:none}
+    table.lb tbody tr:hover{background:#f8fafc}
+    .row-bm{background:rgba(245,158,11,.06)!important;border-left:3px solid rgba(245,158,11,.35)}
+    .row-bm td{color:var(--text2)!important}
+
+    /* rank / activity / delta */
+    .rbadge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;border-radius:4px;font-size:.70rem;font-weight:700;background:rgba(100,116,139,.09);color:var(--text2)}
+    .rbadge-1{background:rgba(251,191,36,.18);color:#92400e}
+    .rbadge-2{background:rgba(148,163,184,.18);color:#475569}
+    .rbadge-3{background:rgba(249,115,22,.18);color:#9a3412}
+    .act-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;flex-shrink:0}
+    .cap-up{color:#16a34a;font-weight:700}
+    .cap-dn{color:#dc2626;font-weight:700}
+    .delta{font-size:.70rem;font-weight:700;white-space:nowrap;margin-left:4px}
+    .du{color:#16a34a}.dd{color:#dc2626}.de{color:var(--text2)}
+    .spark{display:inline-block;vertical-align:middle}
+
+    /* ── History tab ── */
+    .history-grid{display:grid;grid-template-columns:210px 1fr;gap:1rem;align-items:start}
+    @media(max-width:767px){.history-grid{grid-template-columns:1fr}}
+
+    .team-panel{background:#fff;border:1px solid var(--border);border-radius:.6rem;overflow:hidden}
+    .team-panel-head{padding:.65rem .8rem;border-bottom:1px solid var(--border);background:#fafafa}
+    .team-panel-search{width:100%;margin-top:.4rem;font-size:.8rem;padding:.28rem .5rem;border:1px solid var(--border);border-radius:.3rem;outline:none}
+    .team-panel-search:focus{border-color:var(--primary)}
+    .select-all-label{display:flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;cursor:pointer;user-select:none}
+    .team-list{overflow-y:auto;max-height:480px}
+    .team-item{display:flex;align-items:center;gap:.45rem;padding:.38rem .75rem;cursor:pointer;border-bottom:1px solid #f1f5f9;font-size:.8rem;transition:background .1s}
+    .team-item:hover{background:#f8fafc}
+    .team-item.selected{background:rgba(33,131,128,.05)}
+    .team-item input{flex-shrink:0;cursor:pointer;accent-color:var(--primary)}
+    .team-color-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .team-rank-badge{color:var(--text2);font-size:.72rem;flex-shrink:0;min-width:22px;text-align:right}
+    .team-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .sel-count{font-size:.72rem;background:var(--primary);color:#fff;border-radius:10px;padding:.05rem .45rem;min-width:20px;text-align:center}
+
+    /* ── Chart mode toggle ── */
+    .chart-mode-btns{display:flex;border:1px solid var(--border);border-radius:.4rem;overflow:hidden}
+    .cmode-btn{background:none;border:none;padding:.28rem .75rem;font-size:.8rem;font-weight:500;color:var(--text2);cursor:pointer;transition:background .12s,color .12s;white-space:nowrap}
+    .cmode-btn:hover{background:#f1f5f9;color:var(--text)}
+    .cmode-btn.active{background:var(--primary);color:#fff}
+    .ctrl-label{font-size:.78rem;color:var(--text2);font-weight:600;white-space:nowrap}
+    .ctrl-sep{width:1px;height:18px;background:var(--border);flex-shrink:0}
+
+    .chart-panel{background:#fff;border:1px solid var(--border);border-radius:.6rem;padding:1.1rem;min-height:320px;display:flex;flex-direction:column}
+    .chart-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--text2);padding:2rem 1rem;font-size:.9rem;line-height:1.7}
+
+    /* ── Misc ── */
+    .container-xl{max-width:1280px;margin:0 auto;padding:0 1rem}
+    @media(max-width:767px){.d-mobile-none{display:none!important}.stat-num{font-size:1.1rem}}
+    .empty-msg{padding:2.5rem;text-align:center;color:var(--text2);font-size:.9rem}
+    .spinner-sm{display:inline-block;width:14px;height:14px;border:2px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+
+<!-- ═══ Navbar ═══════════════════════════════════════════════════════ -->
+<nav class="app-nav">
+  <a class="app-logo" href="#">MOEX <em>AI</em> Trade Agent</a>
+  <span class="snap-badge" id="snapBadge"><span class="spinner-sm"></span> Загрузка…</span>
+  <span class="ms-auto snap-badge">
+    <a href="https://arenago.ru/competitions/moex-ai-agent/leaderboard" target="_blank" rel="noopener">↗ ArenaGo</a>
+  </span>
+</nav>
+
+<!-- ═══ Tab bar ══════════════════════════════════════════════════════ -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="leaderboard">📊 Таблица</button>
+  <button class="tab-btn"        data-tab="history">📈 История</button>
+</div>
+
+<!-- ═══ Main ═════════════════════════════════════════════════════════ -->
+<div class="container-xl py-3">
+
+  <!-- Stat cards -->
+  <div class="row g-3 mb-3">
+    <div class="col-6 col-md-3"><div class="stat-card">
+      <div class="stat-num" style="color:var(--primary)" id="statParticipants">—</div>
+      <div class="stat-label">Участников</div>
+    </div></div>
+    <div class="col-6 col-md-3"><div class="stat-card">
+      <div class="stat-num" style="color:#16a34a" id="statBestCapital">—</div>
+      <div class="stat-label">Лучший капитал ₽</div>
+    </div></div>
+    <div class="col-6 col-md-3"><div class="stat-card">
+      <div class="stat-num" id="statTrades">—</div>
+      <div class="stat-label">Всего сделок</div>
+    </div></div>
+    <div class="col-6 col-md-3"><div class="stat-card">
+      <div class="stat-num" style="color:#b45309" id="statBenchmark">—</div>
+      <div class="stat-label">IMOEX бенчмарк ₽</div>
+    </div></div>
+  </div>
+
+  <!-- ══ Leaderboard Tab ══════════════════════════════════════════ -->
+  <div id="tab-leaderboard">
+    <div class="lb-card">
+      <div class="lb-toolbar">
+        <input type="text" id="searchInput" class="form-control form-control-sm"
+               placeholder="🔍 Команда или капитан…">
+        <span class="legend-item"><span class="dot" style="background:#22c55e"></span>сегодня</span>
+        <span class="legend-item"><span class="dot" style="background:#eab308"></span>неделя</span>
+        <span class="legend-item"><span class="dot" style="background:#94a3b8"></span>давно</span>
+        <span class="row-count" id="rowCount"></span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="lb" id="lbTable">
+          <thead><tr>
+            <th data-col="rank"       class="text-center sort-on" style="width:44px"># <span class="sort-arr">▲</span></th>
+            <th data-col="team">Команда / Агент <span class="sort-arr">▲</span></th>
+            <th data-col="captain"    class="d-mobile-none">Капитан <span class="sort-arr">▲</span></th>
+            <th data-col="capital"    class="text-end">Капитал ₽ <span class="sort-arr">▲</span></th>
+            <th data-col="commission" class="text-end d-mobile-none">Комиссия ₽ <span class="sort-arr">▲</span></th>
+            <th data-col="load_pct"   class="text-end d-mobile-none">Загрузка <span class="sort-arr">▲</span></th>
+            <th data-col="days"       class="text-end d-mobile-none">Дней <span class="sort-arr">▲</span></th>
+            <th data-col="trades"     class="text-end">Сделок <span class="sort-arr">▲</span></th>
+            <th data-col="turnover"   class="text-end d-mobile-none">Оборот ₽ <span class="sort-arr">▲</span></th>
+            <th class="text-center d-mobile-none" style="width:58px">Тренд</th>
+          </tr></thead>
+          <tbody id="lbBody">
+            <tr><td colspan="10" class="empty-msg"><span class="spinner-sm"></span> Загрузка…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ History Tab ══════════════════════════════════════════════ -->
+  <div id="tab-history" hidden>
+    <div class="history-grid">
+
+      <!-- Left: multi-select team panel -->
+      <div class="team-panel">
+        <div class="team-panel-head">
+          <label class="select-all-label">
+            <input type="checkbox" id="selectAllChk">
+            Все команды
+            <span class="sel-count" id="selCount">0</span>
+          </label>
+          <input type="text" id="teamSearch" class="team-panel-search"
+                 placeholder="Поиск…" autocomplete="off">
+        </div>
+        <div class="team-list" id="teamList">
+          <div class="empty-msg"><span class="spinner-sm"></span></div>
+        </div>
+      </div>
+
+      <!-- Right: chart -->
+      <div class="chart-panel">
+        <div class="chart-empty" id="chartEmpty">
+          <div style="font-size:2.5rem;margin-bottom:.5rem">📈</div>
+          Отметьте команды слева,<br>чтобы увидеть историю мест.<br>
+          <small style="color:#94a3b8;font-size:.8rem">История накапливается по мере появления снимков.</small>
+        </div>
+        <div id="chartWrap" hidden style="flex:1;display:flex;flex-direction:column;gap:.55rem">
+          <!-- Controls row -->
+          <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+            <span class="ctrl-label">Показать:</span>
+            <div class="chart-mode-btns" id="chartModeBtns">
+              <button class="cmode-btn active" data-mode="rank">📍 Место</button>
+              <button class="cmode-btn"        data-mode="capital">💰 Капитал</button>
+            </div>
+            <span class="ctrl-sep"></span>
+            <span class="ctrl-label">Гранулярность:</span>
+            <div class="chart-mode-btns" id="granBtns">
+              <button class="cmode-btn active" data-gran="hours">Часы</button>
+              <button class="cmode-btn"        data-gran="days">Дни</button>
+            </div>
+            <span style="font-size:.7rem;color:var(--text2);margin-left:auto;white-space:nowrap">20 мая – 1 июля 2026</span>
+          </div>
+          <canvas id="historyChart" style="flex:1"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="vendor/chart.umd.min.js"></script>
+<script>
+'use strict';
+// ═══════════════════════════════════════════════════════════════════
+//  MOEX AI Trade Agent — static leaderboard
+//  Sources: data/snapshots/latest.json  +  data/timeseries.json
+// ═══════════════════════════════════════════════════════════════════
+
+const START_CAPITAL = 1_000_000;
+const LATEST_URL    = 'data/snapshots/latest.json';
+const TS_URL        = 'data/timeseries.json';
+
+// 12 perceptually distinct colors — stable per rank index
+const PALETTE = [
+  '#2196f3','#e91e63','#4caf50','#ff9800','#9c27b0','#00bcd4',
+  '#f44336','#8bc34a','#ff5722','#607d8b','#009688','#673ab7'
+];
+
+// Competition window (Moscow time, UTC+3)
+const COMP_START = new Date('2026-05-20T00:00:00+03:00').getTime();
+const COMP_END   = new Date('2026-07-01T23:59:59+03:00').getTime();
+
+// ─── State ──────────────────────────────────────────────────────────
+const S = {
+  latest:        null,
+  ts:            null,
+  sort:          { col:'rank', dir:'asc' },
+  filter:        '',
+  teamFilter:    '',
+  selectedTeams: new Set(),
+  activeTab:     'leaderboard',
+  chart:         null,
+  chartMode:     'rank',       // 'rank' | 'capital'
+  granularity:   'hours',      // 'hours' | 'days'
+};
+
+// ─── Helpers ────────────────────────────────────────────────────────
+const fmt  = n => Number(n).toLocaleString('ru-RU');
+const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const colorForRank = r => PALETTE[(r - 1) % PALETTE.length];
+
+function hexA(hex, a) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+function rankBadge(rank) {
+  if (rank===1) return `<span class="rbadge rbadge-1">🥇</span>`;
+  if (rank===2) return `<span class="rbadge rbadge-2">🥈</span>`;
+  if (rank===3) return `<span class="rbadge rbadge-3">🥉</span>`;
+  return `<span class="rbadge">${rank}</span>`;
+}
+function deltaBadge(d) {
+  if (d==null) return '';
+  if (d<0) return `<span class="delta du">▲${Math.abs(d)}</span>`;
+  if (d>0) return `<span class="delta dd">▼${d}</span>`;
+  return `<span class="delta de">═</span>`;
+}
+function actColor(a) {
+  return a==='today'?'#22c55e':a==='week'?'#eab308':'#94a3b8';
+}
+
+// ─── Data loading ────────────────────────────────────────────────────
+async function loadLatest() {
+  try { S.latest = await fetch(LATEST_URL).then(r=>{if(!r.ok)throw r;return r.json();}); }
+  catch { S.latest = FALLBACK_LATEST; }
+}
+async function loadTimeseries() {
+  if (S.ts) return;
+  try { S.ts = await fetch(TS_URL).then(r=>{if(!r.ok)throw r;return r.json();}); }
+  catch { S.ts = FALLBACK_TS; }
+}
+
+// ─── Stat cards ──────────────────────────────────────────────────────
+function renderStats() {
+  const e = S.latest.entries;
+  document.getElementById('statParticipants').textContent = S.latest.total_participants ?? e.length;
+  document.getElementById('statBestCapital').textContent  = fmt(Math.max(...e.map(x=>x.capital)));
+  document.getElementById('statTrades').textContent       = fmt(e.reduce((s,x)=>s+(x.trades||0),0));
+  document.getElementById('statBenchmark').textContent    = S.latest.benchmark ? fmt(S.latest.benchmark.capital) : '—';
+  document.getElementById('snapBadge').textContent        = '⏱ '+(S.latest.label||S.latest.snapshot_id);
+}
+
+// ─── Sorting ─────────────────────────────────────────────────────────
+const NUM_COLS = new Set(['rank','capital','commission','load_pct','days','trades','turnover']);
+function sortedEntries() {
+  const {col,dir}=S.sort;
+  return [...S.latest.entries].sort((a,b)=>{
+    let va=a[col], vb=b[col];
+    if(NUM_COLS.has(col)){va=+va;vb=+vb;}
+    else{va=String(va).toLowerCase();vb=String(vb).toLowerCase();}
+    if(va<vb)return dir==='asc' ? -1 : 1;
+    if(va>vb)return dir==='asc' ? 1 : -1;
+    return a.rank-b.rank;
+  });
+}
+
+// ─── Rank deltas ─────────────────────────────────────────────────────
+function computeDeltas() {
+  if(!S.ts||S.ts.snapshots.length<2) return {};
+  const snaps=S.ts.snapshots, prevSid=snaps[snaps.length-2].sid;
+  const out={};
+  Object.entries(S.ts.teams).forEach(([cap,td])=>{
+    const cur=td.history[td.history.length-1];
+    const prv=td.history.find(h=>h.sid===prevSid);
+    out[cap]=prv?cur.rank-prv.rank:null;
+  });
+  return out;
+}
+
+// ─── Sparkline ───────────────────────────────────────────────────────
+function sparkSVG(captain,w=54,h=18){
+  if(!S.ts) return '';
+  const td=S.ts.teams[captain];
+  if(!td||td.history.length<2) return '<span style="color:#cbd5e1;font-size:.7rem">—</span>';
+  const ranks=td.history.map(h=>h.rank);
+  const n=ranks.length, minR=Math.min(...ranks), range=Math.max(...ranks)-minR||1;
+  const xs=ranks.map((_,i)=>Math.round(i/(n-1)*(w-2))+1);
+  const ys=ranks.map(r=>Math.round((r-minR)/range*(h-2))+1);
+  const last=ranks[n-1]-ranks[n-2];
+  const col=last<0?'#16a34a':last>0?'#dc2626':'#94a3b8';
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <polyline points="${xs.map((x,i)=>x+','+ys[i]).join(' ')}"
+      fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="${xs[n-1]}" cy="${ys[n-1]}" r="2" fill="${col}"/>
+  </svg>`;
+}
+
+// ─── Leaderboard render ──────────────────────────────────────────────
+function renderLeaderboard() {
+  const q=S.filter.toLowerCase();
+  const deltas=computeDeltas();
+  const bm=S.latest.benchmark;
+  const byRank=S.sort.col==='rank'&&S.sort.dir==='asc';
+  let rows=sortedEntries();
+  if(q) rows=rows.filter(e=>e.team.toLowerCase().includes(q)||e.captain.toLowerCase().includes(q));
+
+  const bmAt=bm&&byRank&&!q ? rows.findIndex(e=>e.capital<bm.capital) : -1;
+
+  let html='';
+  rows.forEach((e,i)=>{
+    if(i===bmAt) html+=bmRow(bm);
+    const capCls=e.capital>START_CAPITAL?'cap-up':e.capital<START_CAPITAL?'cap-dn':'';
+    html+=`<tr>
+      <td class="text-center">${rankBadge(e.rank)}</td>
+      <td>
+        <span class="act-dot" style="background:${actColor(e.activity)}"></span>
+        <span class="fw-semibold" style="font-size:.875rem">${esc(e.team)}</span>
+        ${deltaBadge(deltas[e.captain])}
+      </td>
+      <td class="d-mobile-none">
+        <a href="https://arenago.ru/trader/${encodeURIComponent(e.captain)}"
+           target="_blank" rel="noopener"
+           style="font-size:.72rem;background:#f1f5f9;color:var(--text2);padding:.1rem .4rem;border-radius:4px;text-decoration:none"
+        >${esc(e.captain)}</a>
+      </td>
+      <td class="text-end"><span class="${capCls}">${fmt(e.capital)}</span></td>
+      <td class="text-end d-mobile-none" style="color:#94a3b8">${fmt(e.commission)}</td>
+      <td class="text-end d-mobile-none">${e.load_pct}%</td>
+      <td class="text-end d-mobile-none">${e.days}</td>
+      <td class="text-end">${fmt(e.trades)}</td>
+      <td class="text-end d-mobile-none">${fmt(e.turnover)}</td>
+      <td class="text-center d-mobile-none">${sparkSVG(e.captain)}</td>
+    </tr>`;
+  });
+  if(bmAt===-1&&bm&&byRank&&!q) html+=bmRow(bm);
+
+  document.getElementById('lbBody').innerHTML = html||`<tr><td colspan="10" class="empty-msg">Ничего не найдено.</td></tr>`;
+  document.getElementById('rowCount').textContent = `${rows.length} команд`;
+}
+
+function bmRow(bm){
+  return `<tr class="row-bm">
+    <td class="text-center">★</td>
+    <td colspan="2"><strong style="color:#b45309">IMOEX</strong>
+      <em style="color:var(--text2);font-size:.78rem;margin-left:.4rem">бенчмарк</em></td>
+    <td class="text-end fw-bold" style="color:#dc2626">${fmt(bm.capital)}</td>
+    <td colspan="6" class="d-mobile-none"></td>
+  </tr>`;
+}
+
+// ─── Sort handlers ────────────────────────────────────────────────────
+function initSortHandlers(){
+  document.querySelectorAll('.lb thead th[data-col]').forEach(th=>{
+    th.addEventListener('click',()=>{
+      const col=th.dataset.col;
+      S.sort.dir=S.sort.col===col?(S.sort.dir==='asc'?'desc':'asc'):(NUM_COLS.has(col)&&col!=='rank'?'desc':'asc');
+      S.sort.col=col;
+      document.querySelectorAll('.lb thead th').forEach(t=>{
+        t.classList.remove('sort-on');
+        const a=t.querySelector('.sort-arr');if(a)a.textContent='▲';
+      });
+      th.classList.add('sort-on');
+      const arr=th.querySelector('.sort-arr');if(arr)arr.textContent=S.sort.dir==='asc'?'▲':'▼';
+      renderLeaderboard();
+    });
+  });
+}
+
+// ─── Search ──────────────────────────────────────────────────────────
+function initSearch(){
+  document.getElementById('searchInput').addEventListener('input',e=>{
+    S.filter=e.target.value.trim();renderLeaderboard();
+  });
+}
+
+// ─── Tab switching ────────────────────────────────────────────────────
+function initTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const tab=btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b===btn));
+      document.getElementById('tab-leaderboard').hidden=tab!=='leaderboard';
+      document.getElementById('tab-history').hidden=tab!=='history';
+      S.activeTab=tab;
+      if(tab==='history'&&!S.ts){
+        loadTimeseries().then(()=>{preselectAll();renderTeamList();renderHistoryChart();});
+      } else if(tab==='history'&&S.ts){
+        renderTeamList();renderHistoryChart();
+      }
+    });
+  });
+}
+
+// ─── History: team list ───────────────────────────────────────────────
+function renderTeamList(){
+  if(!S.ts||!S.latest) return;
+  const q=S.teamFilter.toLowerCase();
+  const items=S.latest.entries
+    .filter(e=>!q||e.team.toLowerCase().includes(q)||e.captain.toLowerCase().includes(q))
+    .sort((a,b)=>a.rank-b.rank);
+
+  const list=document.getElementById('teamList');
+  list.innerHTML=items.map(e=>{
+    const checked=S.selectedTeams.has(e.captain)?'checked':'';
+    const selCls =S.selectedTeams.has(e.captain)?' selected':'';
+    const col    =colorForRank(e.rank);
+    return `<label class="team-item${selCls}">
+      <input type="checkbox" value="${esc(e.captain)}" ${checked}>
+      <span class="team-color-swatch" style="background:${col}"></span>
+      <span class="team-rank-badge">#${e.rank}</span>
+      <span class="team-name" title="${esc(e.team)}">${esc(e.team)}</span>
+    </label>`;
+  }).join('');
+
+  list.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      if(cb.checked) S.selectedTeams.add(cb.value);
+      else           S.selectedTeams.delete(cb.value);
+      syncSelectAll();updateSelCount();renderHistoryChart();
+    });
+  });
+  syncSelectAll();updateSelCount();
+}
+
+function syncSelectAll(){
+  const chk=document.getElementById('selectAllChk');
+  const all=S.latest.entries.length, sel=S.selectedTeams.size;
+  chk.checked=sel>0&&sel===all;
+  chk.indeterminate=sel>0&&sel<all;
+}
+function updateSelCount(){ document.getElementById('selCount').textContent=S.selectedTeams.size; }
+
+function initTeamControls(){
+  document.getElementById('selectAllChk').addEventListener('change',e=>{
+    S.latest.entries.forEach(x=>{ e.target.checked?S.selectedTeams.add(x.captain):S.selectedTeams.delete(x.captain); });
+    renderTeamList();renderHistoryChart();
+  });
+  document.getElementById('teamSearch').addEventListener('input',e=>{
+    S.teamFilter=e.target.value;renderTeamList();
+  });
+  // Chart mode toggle (Место / Капитал)
+  document.getElementById('chartModeBtns').addEventListener('click',e=>{
+    const btn=e.target.closest('.cmode-btn');
+    if(!btn) return;
+    const mode=btn.dataset.mode;
+    if(mode===S.chartMode) return;
+    S.chartMode=mode;
+    document.querySelectorAll('#chartModeBtns .cmode-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    renderHistoryChart();
+  });
+  // Granularity toggle (Часы / Дни)
+  document.getElementById('granBtns').addEventListener('click',e=>{
+    const btn=e.target.closest('.cmode-btn');
+    if(!btn) return;
+    const gran=btn.dataset.gran;
+    if(gran===S.granularity) return;
+    S.granularity=gran;
+    document.querySelectorAll('#granBtns .cmode-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    renderHistoryChart();
+  });
+}
+
+// ─── History chart ─────────────────────────────────────────────────────
+
+// ─── Granularity resampling ─────────────────────────────────────────
+// Returns a deduplicated, sorted subset of snapshots.
+// 'hours' → last snapshot per clock-hour (Moscow time)
+// 'days'  → last snapshot per calendar-day (Moscow time)
+function resampleSnaps(snaps, gran) {
+  if (gran === 'raw') return snaps;
+  const groups = new Map();
+  snaps.forEach(s => {
+    // Shift to Moscow (UTC+3) for bucketing
+    const msk = new Date(new Date(s.timestamp).getTime() + 3 * 3600 * 1000);
+    const y = msk.getUTCFullYear(), mo = msk.getUTCMonth(),
+          d = msk.getUTCDate(),    h  = msk.getUTCHours();
+    const key = gran === 'days'
+      ? `${y}-${mo}-${d}`
+      : `${y}-${mo}-${d}-${h}`;
+    // Keep the latest snapshot within the bucket
+    const prev = groups.get(key);
+    if (!prev || new Date(s.timestamp) > new Date(prev.timestamp)) {
+      groups.set(key, s);
+    }
+  });
+  return [...groups.values()].sort(
+    (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+  );
+}
+
+// Plugin: dim all lines except the one nearest the cursor
+const DimPlugin = {
+  id: 'lineDim',
+  afterEvent(chart, args) {
+    const ev = args.event;
+    if (ev.type !== 'mousemove' && ev.type !== 'mouseleave') return;
+
+    const activeEls = chart.getActiveElements();
+    const newIdx    = (ev.type === 'mouseleave' || !activeEls.length) ? -1 : activeEls[0].datasetIndex;
+
+    if (newIdx === (chart._dimIdx ?? -2)) return;
+    chart._dimIdx = newIdx;
+
+    chart.data.datasets.forEach((ds, i) => {
+      const orig = ds._oc;
+      if (newIdx === -1 || i === newIdx) {
+        ds.borderColor          = orig;
+        ds.pointBackgroundColor = orig;
+        ds.borderWidth          = 2.5;
+        ds.pointRadius          = 4;
+      } else {
+        ds.borderColor          = hexA(orig, 0.12);
+        ds.pointBackgroundColor = hexA(orig, 0.08);
+        ds.borderWidth          = 1;
+        ds.pointRadius          = 2;
+      }
+    });
+    chart.update('none');
+    args.changed = true;
+  }
+};
+
+function renderHistoryChart(){
+  const empty = document.getElementById('chartEmpty');
+  const wrap  = document.getElementById('chartWrap');
+
+  if(!S.ts || S.selectedTeams.size === 0){
+    empty.hidden=false; wrap.hidden=true;
+    if(S.chart){ S.chart.destroy(); S.chart=null; }
+    return;
+  }
+  empty.hidden=true; wrap.hidden=false;
+
+  const isRank = S.chartMode === 'rank';
+
+  // Filter snapshots to competition window, then resample
+  const windowSnaps = S.ts.snapshots.filter(s => {
+    const t = new Date(s.timestamp).getTime();
+    return t >= COMP_START && t <= COMP_END;
+  });
+  const allSnaps = resampleSnaps(windowSnaps, S.granularity);
+
+  const xTs = allSnaps.map(s => new Date(s.timestamp).getTime());
+
+  // Build datasets — each raw point carries sid + label + both values for tooltip
+  const datasets = [...S.selectedTeams].map(captain => {
+    const entry = S.latest.entries.find(e => e.captain === captain);
+    const rank  = entry?.rank ?? 99;
+    const col   = colorForRank(rank);
+    const tdm   = S.ts.teams[captain];
+    const name  = tdm?.team || captain;
+
+    const data = allSnaps.map((snap, i) => {
+      const h = tdm?.history.find(h => h.sid === snap.sid);
+      if (!h) return null;
+      return {
+        x:        xTs[i],
+        y:        isRank ? h.rank : h.capital,
+        _rank:    h.rank,
+        _capital: h.capital,
+        _label:   snap.label,
+        _team:    name,
+        _color:   col,
+      };
+    }).filter(Boolean);
+
+    return {
+      label:               name,
+      data,
+      borderColor:         col,
+      pointBackgroundColor: col,
+      backgroundColor:     hexA(col, .05),
+      borderWidth:         2.5,
+      pointRadius:         4,
+      pointHoverRadius:    6,
+      tension:             .3,
+      spanGaps:            true,
+      _oc:                 col,
+    };
+  });
+
+  if(S.chart){ S.chart.destroy(); S.chart=null; }
+  const ctx = document.getElementById('historyChart').getContext('2d');
+
+  // Tick formatter — days gran: always date; hours gran: date at midnight, time otherwise
+  const isDays = S.granularity === 'days';
+  function xTickFmt(v) {
+    const msk = new Date(v + 3 * 3600 * 1000);   // shift to UTC+3 for display
+    const h = msk.getUTCHours(), m = msk.getUTCMinutes();
+    if (isDays || (h === 0 && m === 0)) {
+      return new Date(v).toLocaleDateString('ru-RU',
+        { day:'numeric', month:'short', timeZone:'Europe/Moscow' });
+    }
+    return new Date(v).toLocaleTimeString('ru-RU',
+      { hour:'2-digit', minute:'2-digit', timeZone:'Europe/Moscow' });
+  }
+  // ~42 days wide; for days gran show every 3-4 days, for hours show every few hours
+  const maxTicks = isDays ? 20 : 16;
+
+  const yAxisRank = {
+    reverse: true,
+    title:   { display:true, text:'Место (↑ лучше)', font:{size:11}, color:'#64748b' },
+    ticks:   { stepSize:1, precision:0, color:'#64748b', font:{size:11} },
+    min:     1,
+    grid:    { color:'rgba(0,0,0,.05)' },
+  };
+
+  const yAxisCapital = {
+    reverse: false,
+    title:   { display:true, text:'Капитал ₽', font:{size:11}, color:'#64748b' },
+    ticks:   {
+      color:'#64748b', font:{size:11},
+      callback: v => {
+        if (v >= 1_000_000) return (v/1_000_000).toFixed(3)+'М';
+        return (v/1_000).toFixed(0)+'К';
+      }
+    },
+    grid:    { color:'rgba(0,0,0,.05)' },
+  };
+
+  S.chart = new Chart(ctx, {
+    type: 'line',
+    plugins: [DimPlugin],
+    data:    { datasets },
+    options: {
+      responsive: true,
+      interaction: { mode:'nearest', intersect:false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor:  'rgba(15,23,42,.92)',
+          padding:          10,
+          titleFont:        { size:13, weight:'bold' },
+          bodyFont:         { size:12 },
+          displayColors:    true,
+          usePointStyle:    true,
+          boxWidth:         10,
+          boxHeight:        10,
+          callbacks: {
+            // Title = team name (color square comes from labelColor)
+            title(items) {
+              return items[0]?.raw?._team ?? items[0]?.dataset?.label ?? '';
+            },
+            // One label line per item (only 1 with mode:'nearest')
+            label(item) {
+              const raw = item.raw;
+              if (!raw) return '';
+              const rankStr    = `  📍 Место: #${raw._rank}`;
+              const capitalStr = `  💰 Капитал: ${fmt(raw._capital)} ₽`;
+              const dateStr    = `  🕐 ${raw._label}`;
+              return [rankStr, capitalStr, dateStr];
+            },
+            // Color box matches the line color exactly
+            labelColor(item) {
+              const col = item.dataset._oc || item.dataset.borderColor;
+              return { borderColor: col, backgroundColor: col, borderWidth: 2 };
+            },
+          }
+        }
+      },
+      scales: {
+        x: {
+          type:  'linear',
+          min:   COMP_START,
+          max:   COMP_END,
+          ticks: {
+            color: '#64748b', font:{size:11},
+            maxTicksLimit: maxTicks,
+            callback: xTickFmt,
+          },
+          grid: { color:'rgba(0,0,0,.04)' },
+        },
+        y: isRank ? yAxisRank : yAxisCapital,
+      }
+    }
+  });
+}
+
+// Select ALL teams on History tab open
+function preselectAll(){
+  if(!S.latest) return;
+  S.latest.entries.forEach(e => S.selectedTeams.add(e.captain));
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────
+async function init(){
+  await loadLatest();
+  renderStats();
+  renderLeaderboard();
+  initSortHandlers();
+  initSearch();
+  initTabs();
+  // Pre-load timeseries in background for sparklines and rank deltas
+  loadTimeseries().then(()=>{
+    renderLeaderboard();
+    preselectAll();
+    initTeamControls();
+    if(S.activeTab==='history'){ renderTeamList(); renderHistoryChart(); }
+  });
+}
+init();
+
+// ─── Fallback embedded data (works from file:// and when fetch fails) ─
+const FALLBACK_LATEST={"snapshot_id":"2026-05-21T1024","timestamp":"2026-05-21T10:24:00+03:00","label":"21 мая 2026, 10:24","total_participants":47,"competition":"moex-ai-agent","source":"manual","benchmark":{"name":"IMOEX","capital":974028},"entries":[{"rank":1,"team":"Команда","captain":"vpack20","capital":1014914,"commission":5179,"load_pct":49,"days":5,"trades":197,"turnover":10358523,"activity":"today"},{"rank":2,"team":"Vortix","captain":"temshik_trader","capital":1000914,"commission":4926,"load_pct":22,"days":3,"trades":187,"turnover":9851961,"activity":"week"},{"rank":3,"team":"ОРЕХАБ","captain":"ras0087","capital":1000013,"commission":11,"load_pct":0,"days":2,"trades":7,"turnover":22070,"activity":"week"},{"rank":4,"team":"Happiness Hedging Quants","captain":"mkhmzr","capital":999998,"commission":2,"load_pct":0,"days":1,"trades":2,"turnover":3448,"activity":"week"},{"rank":5,"team":"A-team","captain":"liken17","capital":999997,"commission":0,"load_pct":0,"days":1,"trades":1,"turnover":325,"activity":"week"},{"rank":6,"team":"solanaboys","captain":"moexflipper","capital":999995,"commission":5,"load_pct":0,"days":1,"trades":2,"turnover":10432,"activity":"week"},{"rank":7,"team":"Бу, испугался?","captain":"Belkovskyy","capital":999792,"commission":540,"load_pct":6,"days":2,"trades":35,"turnover":1079226,"activity":"today"},{"rank":8,"team":"SoloTech","captain":"stasvinokur","capital":999143,"commission":796,"load_pct":6,"days":6,"trades":27,"turnover":1592390,"activity":"week"},{"rank":9,"team":"Jarvis","captain":"mail10102005","capital":997908,"commission":5042,"load_pct":29,"days":3,"trades":45,"turnover":10085118,"activity":"week"},{"rank":10,"team":"AllegroCode","captain":"dgalimov560","capital":996990,"commission":4275,"load_pct":0,"days":2,"trades":118,"turnover":8550111,"activity":"week"},{"rank":11,"team":"LLMao","captain":"pavel","capital":992677,"commission":376,"load_pct":74,"days":2,"trades":8,"turnover":753144,"activity":"week"},{"rank":12,"team":"Дети Баффета","captain":"antsev.itmo","capital":991961,"commission":20487,"load_pct":97,"days":2,"trades":165,"turnover":40973377,"activity":"week"},{"rank":13,"team":"Байкальск","captain":"piledreke","capital":990976,"commission":1595,"load_pct":21,"days":3,"trades":37,"turnover":3191063,"activity":"week"},{"rank":14,"team":"pacemaker","captain":"tialgo","capital":989342,"commission":747,"load_pct":51,"days":2,"trades":7,"turnover":1493558,"activity":"week"},{"rank":15,"team":"YA_week","captain":"romalevints","capital":987483,"commission":31085,"load_pct":98,"days":4,"trades":1115,"turnover":62170526,"activity":"today"},{"rank":16,"team":"Jevio Team","captain":"klevin3701","capital":987137,"commission":7599,"load_pct":0,"days":2,"trades":174,"turnover":15198532,"activity":"week"},{"rank":17,"team":"ThisIsMISIS","captain":"trader228","capital":984893,"commission":7963,"load_pct":0,"days":5,"trades":467,"turnover":15925248,"activity":"week"},{"rank":18,"team":"dodep MISIS","captain":"and159753000000000000000000","capital":981940,"commission":12391,"load_pct":0,"days":3,"trades":174,"turnover":24782830,"activity":"today"},{"rank":19,"team":"Golden Boys","captain":"ivaldepabloadrian","capital":980617,"commission":16627,"load_pct":9,"days":2,"trades":512,"turnover":33254952,"activity":"today"},{"rank":20,"team":"AITraiding","captain":"a.strachenkov","capital":979461,"commission":17139,"load_pct":51,"days":8,"trades":678,"turnover":34277641,"activity":"today"},{"rank":21,"team":"АБОБА","captain":"serfetto","capital":973973,"commission":4655,"load_pct":77,"days":6,"trades":520,"turnover":9311029,"activity":"today"},{"rank":22,"team":"eveloup","captain":"h.timur.alisherovich","capital":969661,"commission":41263,"load_pct":35,"days":8,"trades":1220,"turnover":82526433,"activity":"today"}]};
+const FALLBACK_TS={"last_updated":"2026-05-21T10:24:00+03:00","last_snapshot_id":"2026-05-21T1024","competition":"moex-ai-agent","snapshots":[{"sid":"2026-05-21T1024","timestamp":"2026-05-21T10:24:00+03:00","label":"21 мая 2026, 10:24","total_participants":47,"benchmark_capital":974028}],"teams":{"vpack20":{"team":"Команда","history":[{"sid":"2026-05-21T1024","rank":1,"capital":1014914,"commission":5179,"load_pct":49,"days":5,"trades":197,"turnover":10358523,"activity":"today"}]},"temshik_trader":{"team":"Vortix","history":[{"sid":"2026-05-21T1024","rank":2,"capital":1000914,"commission":4926,"load_pct":22,"days":3,"trades":187,"turnover":9851961,"activity":"week"}]},"ras0087":{"team":"ОРЕХАБ","history":[{"sid":"2026-05-21T1024","rank":3,"capital":1000013,"commission":11,"load_pct":0,"days":2,"trades":7,"turnover":22070,"activity":"week"}]},"mkhmzr":{"team":"Happiness Hedging Quants","history":[{"sid":"2026-05-21T1024","rank":4,"capital":999998,"commission":2,"load_pct":0,"days":1,"trades":2,"turnover":3448,"activity":"week"}]},"liken17":{"team":"A-team","history":[{"sid":"2026-05-21T1024","rank":5,"capital":999997,"commission":0,"load_pct":0,"days":1,"trades":1,"turnover":325,"activity":"week"}]},"moexflipper":{"team":"solanaboys","history":[{"sid":"2026-05-21T1024","rank":6,"capital":999995,"commission":5,"load_pct":0,"days":1,"trades":2,"turnover":10432,"activity":"week"}]},"Belkovskyy":{"team":"Бу, испугался?","history":[{"sid":"2026-05-21T1024","rank":7,"capital":999792,"commission":540,"load_pct":6,"days":2,"trades":35,"turnover":1079226,"activity":"today"}]},"stasvinokur":{"team":"SoloTech","history":[{"sid":"2026-05-21T1024","rank":8,"capital":999143,"commission":796,"load_pct":6,"days":6,"trades":27,"turnover":1592390,"activity":"week"}]},"mail10102005":{"team":"Jarvis","history":[{"sid":"2026-05-21T1024","rank":9,"capital":997908,"commission":5042,"load_pct":29,"days":3,"trades":45,"turnover":10085118,"activity":"week"}]},"dgalimov560":{"team":"AllegroCode","history":[{"sid":"2026-05-21T1024","rank":10,"capital":996990,"commission":4275,"load_pct":0,"days":2,"trades":118,"turnover":8550111,"activity":"week"}]},"pavel":{"team":"LLMao","history":[{"sid":"2026-05-21T1024","rank":11,"capital":992677,"commission":376,"load_pct":74,"days":2,"trades":8,"turnover":753144,"activity":"week"}]},"antsev.itmo":{"team":"Дети Баффета","history":[{"sid":"2026-05-21T1024","rank":12,"capital":991961,"commission":20487,"load_pct":97,"days":2,"trades":165,"turnover":40973377,"activity":"week"}]},"piledreke":{"team":"Байкальск","history":[{"sid":"2026-05-21T1024","rank":13,"capital":990976,"commission":1595,"load_pct":21,"days":3,"trades":37,"turnover":3191063,"activity":"week"}]},"tialgo":{"team":"pacemaker","history":[{"sid":"2026-05-21T1024","rank":14,"capital":989342,"commission":747,"load_pct":51,"days":2,"trades":7,"turnover":1493558,"activity":"week"}]},"romalevints":{"team":"YA_week","history":[{"sid":"2026-05-21T1024","rank":15,"capital":987483,"commission":31085,"load_pct":98,"days":4,"trades":1115,"turnover":62170526,"activity":"today"}]},"klevin3701":{"team":"Jevio Team","history":[{"sid":"2026-05-21T1024","rank":16,"capital":987137,"commission":7599,"load_pct":0,"days":2,"trades":174,"turnover":15198532,"activity":"week"}]},"trader228":{"team":"ThisIsMISIS","history":[{"sid":"2026-05-21T1024","rank":17,"capital":984893,"commission":7963,"load_pct":0,"days":5,"trades":467,"turnover":15925248,"activity":"week"}]},"and159753000000000000000000":{"team":"dodep MISIS","history":[{"sid":"2026-05-21T1024","rank":18,"capital":981940,"commission":12391,"load_pct":0,"days":3,"trades":174,"turnover":24782830,"activity":"today"}]},"ivaldepabloadrian":{"team":"Golden Boys","history":[{"sid":"2026-05-21T1024","rank":19,"capital":980617,"commission":16627,"load_pct":9,"days":2,"trades":512,"turnover":33254952,"activity":"today"}]},"a.strachenkov":{"team":"AITraiding","history":[{"sid":"2026-05-21T1024","rank":20,"capital":979461,"commission":17139,"load_pct":51,"days":8,"trades":678,"turnover":34277641,"activity":"today"}]},"serfetto":{"team":"АБОБА","history":[{"sid":"2026-05-21T1024","rank":21,"capital":973973,"commission":4655,"load_pct":77,"days":6,"trades":520,"turnover":9311029,"activity":"today"}]},"h.timur.alisherovich":{"team":"eveloup","history":[{"sid":"2026-05-21T1024","rank":22,"capital":969661,"commission":41263,"load_pct":35,"days":8,"trades":1220,"turnover":82526433,"activity":"today"}]}}};
+</script>
+</body>
+</html>
+
