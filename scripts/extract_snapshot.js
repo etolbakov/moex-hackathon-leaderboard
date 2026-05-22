@@ -111,7 +111,15 @@ const now      = new Date();
 const dateStr  = now.toISOString().slice(0, 10);
 const hhmm     = updateTime ? updateTime.replace(':', '') : now.toISOString().slice(11, 16).replace(':', '');
 const snapId   = `${dateStr.replace(/-/g, '')}T${hhmm}`;
-const label    = updateTime ? `${dateStr}, ${updateTime}` : now.toISOString().slice(0, 16).replace('T', ', ');
+
+// Russian-locale label: "22 мая 2026, 11:00"
+const RU_MONTHS = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+function ruLabel(date, timeStr) {
+  const d = new Date(date);
+  const t = timeStr || `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  return `${d.getDate()} ${RU_MONTHS[d.getMonth()]} ${d.getFullYear()}, ${t}`;
+}
+const label = ruLabel(now, updateTime || null);
 
 // ─── Output ─────────────────────────────────────────────────────────
 const snapshot = {
