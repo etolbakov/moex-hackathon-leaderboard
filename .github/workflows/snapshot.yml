@@ -2,9 +2,8 @@ name: 📸 Snapshot Leaderboard
 
 on:
   schedule:
-    # Every 5 minutes on weekdays (Moscow trading hours Mon–Fri 07:00–16:00 UTC ≈ 10:00–19:00 MSK)
-    # GitHub cron minimum granularity is 5 min; actual execution may lag by a few minutes.
-    - cron: '*/5 7-16 * * 1-5'
+    # Every 10 minutes on weekdays (Moscow trading hours Mon–Fri 06:00–21:00 UTC ≈ 9:00–23:00 MSK)    
+    - cron: '*/10 6-20 * * 1-5'
     # Also run twice daily on weekends to catch late trades
     - cron: '0 8,14 * * 0,6'
   workflow_dispatch:
