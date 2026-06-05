@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-06-05T15:33:12.433Z",
-  "last_snapshot_id": "20260605T1824",
+  "last_updated": "2026-06-05T17:30:06.535Z",
+  "last_snapshot_id": "20260605T2024",
   "competition": "moex-ai-agent",
   "snapshots": [
     {
@@ -394,6 +394,13 @@
       "label": "5 июн 2026, 18:24",
       "total_participants": 0,
       "benchmark_capital": 987470
+    },
+    {
+      "sid": "20260605T2024",
+      "timestamp": "2026-06-05T17:30:06.535Z",
+      "label": "5 июн 2026, 20:24",
+      "total_participants": 0,
+      "benchmark_capital": 988974
     }
   ],
   "teams": {
@@ -1014,6 +1021,17 @@
           "days": 9,
           "trades": 1083,
           "turnover": 25018522,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 13,
+          "capital": 999130,
+          "commission": 12778,
+          "load_pct": 59,
+          "days": 9,
+          "trades": 1102,
+          "turnover": 25365173,
           "activity": "today"
         }
       ]
@@ -1636,6 +1654,17 @@
           "trades": 54,
           "turnover": 3877306,
           "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 14,
+          "capital": 998923,
+          "commission": 1939,
+          "load_pct": 0,
+          "days": 2,
+          "trades": 54,
+          "turnover": 3877306,
+          "activity": "week"
         }
       ]
     },
@@ -2250,6 +2279,17 @@
         {
           "sid": "20260605T1824",
           "rank": 22,
+          "capital": 993977,
+          "commission": 3204,
+          "load_pct": 0,
+          "days": 3,
+          "trades": 35,
+          "turnover": 6408672,
+          "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 21,
           "capital": 993977,
           "commission": 3204,
           "load_pct": 0,
@@ -3125,6 +3165,17 @@
           "trades": 304,
           "turnover": 4467779,
           "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 16,
+          "capital": 997179,
+          "commission": 2234,
+          "load_pct": 0,
+          "days": 8,
+          "trades": 304,
+          "turnover": 4467779,
+          "activity": "week"
         }
       ]
     },
@@ -3740,6 +3791,17 @@
           "sid": "20260605T1824",
           "rank": 3,
           "capital": 1006094,
+          "commission": 649,
+          "load_pct": 54,
+          "days": 4,
+          "trades": 24,
+          "turnover": 1297645,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 2,
+          "capital": 1007741,
           "commission": 649,
           "load_pct": 54,
           "days": 4,
@@ -4367,6 +4429,17 @@
           "trades": 202,
           "turnover": 6141965,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 15,
+          "capital": 998091,
+          "commission": 3131,
+          "load_pct": 1,
+          "days": 6,
+          "trades": 204,
+          "turnover": 6262922,
+          "activity": "today"
         }
       ]
     },
@@ -4987,6 +5060,17 @@
           "days": 8,
           "trades": 19,
           "turnover": 2432309,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 29,
+          "capital": 976351,
+          "commission": 1455,
+          "load_pct": 9,
+          "days": 8,
+          "trades": 20,
+          "turnover": 2909600,
           "activity": "today"
         }
       ]
@@ -5856,6 +5940,17 @@
           "trades": 163,
           "turnover": 9504830,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 4,
+          "capital": 1005256,
+          "commission": 4752,
+          "load_pct": 55,
+          "days": 9,
+          "trades": 163,
+          "turnover": 9504830,
+          "activity": "today"
         }
       ]
     },
@@ -6476,6 +6571,17 @@
           "days": 9,
           "trades": 2159,
           "turnover": 70468635,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 33,
+          "capital": 957590,
+          "commission": 36076,
+          "load_pct": 7,
+          "days": 9,
+          "trades": 2203,
+          "turnover": 72148530,
           "activity": "today"
         }
       ]
@@ -7098,6 +7204,17 @@
           "trades": 186,
           "turnover": 16244360,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 25,
+          "capital": 988706,
+          "commission": 8122,
+          "load_pct": 0,
+          "days": 9,
+          "trades": 186,
+          "turnover": 16244360,
+          "activity": "today"
         }
       ]
     },
@@ -7625,6 +7742,17 @@
           "sid": "20260605T1824",
           "rank": 11,
           "capital": 999498,
+          "commission": 1294,
+          "load_pct": 11,
+          "days": 6,
+          "trades": 30,
+          "turnover": 2588374,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 9,
+          "capital": 999646,
           "commission": 1294,
           "load_pct": 11,
           "days": 6,
@@ -8499,6 +8627,17 @@
           "trades": 75,
           "turnover": 23835123,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 1,
+          "capital": 1010182,
+          "commission": 12573,
+          "load_pct": 98,
+          "days": 7,
+          "trades": 79,
+          "turnover": 25146845,
+          "activity": "today"
         }
       ]
     },
@@ -9367,6 +9506,17 @@
           "trades": 860,
           "turnover": 584198561,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 38,
+          "capital": 698181,
+          "commission": 292099,
+          "load_pct": 0,
+          "days": 9,
+          "trades": 860,
+          "turnover": 584198561,
+          "activity": "today"
         }
       ]
     },
@@ -9988,6 +10138,17 @@
           "trades": 134,
           "turnover": 10270360,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 17,
+          "capital": 997064,
+          "commission": 5584,
+          "load_pct": 2,
+          "days": 5,
+          "trades": 147,
+          "turnover": 11168904,
+          "activity": "today"
         }
       ]
     },
@@ -10592,6 +10753,17 @@
           "sid": "20260605T1824",
           "rank": 24,
           "capital": 990977,
+          "commission": 472,
+          "load_pct": 61,
+          "days": 2,
+          "trades": 14,
+          "turnover": 944201,
+          "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 24,
+          "capital": 992123,
           "commission": 472,
           "load_pct": 61,
           "days": 2,
@@ -11219,6 +11391,17 @@
           "trades": 94,
           "turnover": 11692791,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 6,
+          "capital": 1002311,
+          "commission": 5846,
+          "load_pct": 73,
+          "days": 9,
+          "trades": 94,
+          "turnover": 11692791,
+          "activity": "today"
         }
       ]
     },
@@ -11839,6 +12022,17 @@
           "days": 9,
           "trades": 433,
           "turnover": 22814834,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 22,
+          "capital": 993038,
+          "commission": 11578,
+          "load_pct": 43,
+          "days": 9,
+          "trades": 436,
+          "turnover": 23155575,
           "activity": "today"
         }
       ]
@@ -12461,6 +12655,17 @@
           "trades": 1675,
           "turnover": 105985263,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 37,
+          "capital": 907789,
+          "commission": 54322,
+          "load_pct": 86,
+          "days": 9,
+          "trades": 1713,
+          "turnover": 108643498,
+          "activity": "today"
         }
       ]
     },
@@ -13071,6 +13276,17 @@
           "trades": 105,
           "turnover": 35245716,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 32,
+          "capital": 962620,
+          "commission": 17922,
+          "load_pct": 0,
+          "days": 6,
+          "trades": 107,
+          "turnover": 35843637,
+          "activity": "today"
         }
       ]
     },
@@ -13625,6 +13841,17 @@
           "days": 6,
           "trades": 52,
           "turnover": 3853913,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 20,
+          "capital": 994825,
+          "commission": 1939,
+          "load_pct": 0,
+          "days": 6,
+          "trades": 53,
+          "turnover": 3878534,
           "activity": "today"
         }
       ]
@@ -14472,6 +14699,17 @@
           "trades": 2461,
           "turnover": 81906914,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 35,
+          "capital": 952146,
+          "commission": 42013,
+          "load_pct": 68,
+          "days": 9,
+          "trades": 2581,
+          "turnover": 83946165,
+          "activity": "today"
         }
       ]
     },
@@ -15098,6 +15336,17 @@
           "trades": 74,
           "turnover": 1445428,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 18,
+          "capital": 996837,
+          "commission": 723,
+          "load_pct": 28,
+          "days": 5,
+          "trades": 74,
+          "turnover": 1445428,
+          "activity": "today"
         }
       ]
     },
@@ -15649,6 +15898,17 @@
           "capital": 985645,
           "commission": 478,
           "load_pct": 93,
+          "days": 4,
+          "trades": 11,
+          "turnover": 956758,
+          "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 26,
+          "capital": 985671,
+          "commission": 478,
+          "load_pct": 94,
           "days": 4,
           "trades": 11,
           "turnover": 956758,
@@ -16312,6 +16572,17 @@
           "trades": 1366,
           "turnover": 54301439,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 30,
+          "capital": 972129,
+          "commission": 27151,
+          "load_pct": 0,
+          "days": 8,
+          "trades": 1366,
+          "turnover": 54301439,
+          "activity": "today"
         }
       ]
     },
@@ -16844,6 +17115,17 @@
           "days": 8,
           "trades": 442,
           "turnover": 11671846,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 7,
+          "capital": 1001655,
+          "commission": 5866,
+          "load_pct": 95,
+          "days": 8,
+          "trades": 455,
+          "turnover": 11730602,
           "activity": "today"
         }
       ]
@@ -17427,6 +17709,17 @@
           "trades": 25,
           "turnover": 3855518,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 10,
+          "capital": 999621,
+          "commission": 2135,
+          "load_pct": 66,
+          "days": 4,
+          "trades": 27,
+          "turnover": 4270638,
+          "activity": "today"
         }
       ]
     },
@@ -17861,6 +18154,17 @@
           "trades": 421,
           "turnover": 82440492,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 34,
+          "capital": 954464,
+          "commission": 41220,
+          "load_pct": 83,
+          "days": 5,
+          "trades": 421,
+          "turnover": 82440492,
+          "activity": "today"
         }
       ]
     },
@@ -18234,6 +18538,17 @@
           "sid": "20260605T1824",
           "rank": 13,
           "capital": 999211,
+          "commission": 1031,
+          "load_pct": 0,
+          "days": 4,
+          "trades": 316,
+          "turnover": 2062898,
+          "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 12,
+          "capital": 999207,
           "commission": 1031,
           "load_pct": 0,
           "days": 4,
@@ -18707,6 +19022,17 @@
           "trades": 122,
           "turnover": 16237970,
           "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 31,
+          "capital": 965718,
+          "commission": 8119,
+          "load_pct": 74,
+          "days": 2,
+          "trades": 122,
+          "turnover": 16237970,
+          "activity": "week"
         }
       ]
     },
@@ -19152,6 +19478,17 @@
           "trades": 7673,
           "turnover": 1876474925,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 39,
+          "capital": 71493,
+          "commission": 938237,
+          "load_pct": 2,
+          "days": 9,
+          "trades": 7673,
+          "turnover": 1876474925,
+          "activity": "today"
         }
       ]
     },
@@ -19442,6 +19779,17 @@
           "days": 3,
           "trades": 43,
           "turnover": 10403660,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 23,
+          "capital": 992542,
+          "commission": 5370,
+          "load_pct": 0,
+          "days": 3,
+          "trades": 44,
+          "turnover": 10739194,
           "activity": "today"
         }
       ]
@@ -19873,6 +20221,17 @@
           "capital": 1007303,
           "commission": 299,
           "load_pct": 55,
+          "days": 1,
+          "trades": 6,
+          "turnover": 598114,
+          "activity": "ago"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 3,
+          "capital": 1006433,
+          "commission": 299,
+          "load_pct": 56,
           "days": 1,
           "trades": 6,
           "turnover": 598114,
@@ -20311,6 +20670,17 @@
           "trades": 199,
           "turnover": 14263373,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 8,
+          "capital": 999868,
+          "commission": 7140,
+          "load_pct": 9,
+          "days": 9,
+          "trades": 200,
+          "turnover": 14279490,
+          "activity": "today"
         }
       ]
     },
@@ -20744,6 +21114,17 @@
           "days": 7,
           "trades": 173,
           "turnover": 7523454,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 27,
+          "capital": 985077,
+          "commission": 3988,
+          "load_pct": 0,
+          "days": 7,
+          "trades": 182,
+          "turnover": 7975664,
           "activity": "today"
         }
       ]
@@ -21179,6 +21560,17 @@
           "trades": 5777,
           "turnover": 179256592,
           "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 36,
+          "capital": 935807,
+          "commission": 90252,
+          "load_pct": 91,
+          "days": 9,
+          "trades": 5823,
+          "turnover": 180501626,
+          "activity": "today"
         }
       ]
     },
@@ -21613,6 +22005,17 @@
           "trades": 310,
           "turnover": 27148875,
           "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 28,
+          "capital": 978533,
+          "commission": 13574,
+          "load_pct": 74,
+          "days": 5,
+          "trades": 310,
+          "turnover": 27148875,
+          "activity": "week"
         }
       ]
     },
@@ -22035,6 +22438,17 @@
           "days": 9,
           "trades": 577,
           "turnover": 7874108,
+          "activity": "today"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 19,
+          "capital": 996023,
+          "commission": 4027,
+          "load_pct": 4,
+          "days": 9,
+          "trades": 591,
+          "turnover": 8053679,
           "activity": "today"
         }
       ]
@@ -22475,6 +22889,17 @@
           "trades": 13,
           "turnover": 218287,
           "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 11,
+          "capital": 999461,
+          "commission": 111,
+          "load_pct": 8,
+          "days": 3,
+          "trades": 14,
+          "turnover": 221564,
+          "activity": "today"
         }
       ]
     },
@@ -22755,6 +23180,17 @@
           "trades": 22,
           "turnover": 999941,
           "activity": "week"
+        },
+        {
+          "sid": "20260605T2024",
+          "rank": 5,
+          "capital": 1004725,
+          "commission": 500,
+          "load_pct": 100,
+          "days": 3,
+          "trades": 25,
+          "turnover": 1000588,
+          "activity": "today"
         }
       ]
     }
